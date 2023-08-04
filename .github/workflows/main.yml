@@ -75,6 +75,7 @@ jobs:
         #https://unix.stackexchange.com/questions/555985/cp-recursively-into-a-directory-that-symlinks-to-dirs-of-same-name-as-in-source
         cd ..
         rm -rf depdir
+        sudo rm /etc/ld.so.cache
         sudo ldconfig
     - name: autogen
       run: ./autogen.sh --enable-static --disable-shared
