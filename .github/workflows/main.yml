@@ -21,7 +21,7 @@ jobs:
     - name:  Install pre-dependencies
       run: |
          if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt-get install -y libssl-dev libcurl4-openssl-dev libzip-dev
+              sudo apt-get install -y libssl-dev libcurl4-openssl-dev libzip-dev rsync
               
               #install libplist-2.0 because libplist-dev is called "libplist v2.0.0"
               git clone https://github.com/libimobiledevice/libplist
@@ -71,7 +71,8 @@ jobs:
           rm "$BUILDROOT.zip"
         done
         echo "moving dependencies to /"
-        sudo cp -r $BUILDROOT/./* /
+        sudo rsync --keep-dirlinks -av $BUILDROOT/* /
+        #https://unix.stackexchange.com/questions/555985/cp-recursively-into-a-directory-that-symlinks-to-dirs-of-same-name-as-in-source
         cd ..
         rm -rf depdir
     - name: autogen
